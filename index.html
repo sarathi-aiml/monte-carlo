@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bake Sale Monte Carlo Simulation</title>
+  <style>
+    :root { --ink:#172033; --muted:#5b6475; --blue:#2463a8; --pale:#eef5fc; --red:#ba3b37; --green:#16734b; }
+    * { box-sizing:border-box; } body { margin:0; color:var(--ink); font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif; background:#f7f9fc; }
+    header { padding:72px 24px; color:white; background:linear-gradient(135deg,#173d69,#2672b7); }
+    header div, main { max-width:1040px; margin:auto; } h1 { max-width:750px; margin:0 0 12px; font-size:clamp(2.2rem,6vw,4.3rem); line-height:1.04; }
+    header p { max-width:700px; margin:0; font-size:1.2rem; opacity:.9; } main { padding:42px 24px 80px; }
+    section { margin:0 0 46px; padding:30px; background:white; border:1px solid #e2e7ef; border-radius:18px; box-shadow:0 8px 30px #19324d0b; }
+    h2 { margin-top:0; font-size:1.75rem; } .question { border-left:5px solid var(--blue); background:var(--pale); padding:18px 22px; font-size:1.2rem; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; }
+    .card { padding:20px; border-radius:14px; background:var(--pale); } .card strong { display:block; color:var(--blue); font-size:1.8rem; }
+    .flow { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; align-items:center; text-align:center; }
+    .step { height:100%; padding:17px 10px; background:#f3f6fa; border-radius:12px; } .arrow { display:none; }
+    pre { overflow:auto; padding:20px; color:#eaf3ff; background:#172033; border-radius:12px; }
+    img { display:block; width:100%; border:1px solid #e1e6ee; border-radius:12px; }
+    table { width:100%; border-collapse:collapse; } th,td { padding:12px; border-bottom:1px solid #e7ebf1; text-align:left; } th { color:var(--muted); }
+    .result { font-size:clamp(2.5rem,8vw,5rem); color:var(--green); font-weight:800; line-height:1; }
+    .warning { color:#6f3518; background:#fff3e8; border-left:5px solid #e38947; padding:16px 20px; }
+    footer { color:var(--muted); text-align:center; padding:30px; } code { color:#204d7c; }
+    @media(max-width:760px){ .flow{grid-template-columns:1fr}.step{height:auto} section{padding:22px} }
+  </style>
+</head>
+<body>
+  <header><div><h1>Will the bake sale make money?</h1><p>An end-to-end Monte Carlo simulation: from uncertain assumptions to 10,000 possible futures and one decision-ready probability.</p></div></header>
+  <main>
+    <section><h2>1. Start with the decision</h2><p>You must pay <strong>$250</strong> for ingredients, packaging, and setup before the sale begins.</p><div class="question">What is the probability that bake-sale revenue will exceed the $250 fixed cost?</div></section>
+    <section><h2>2. Describe what is uncertain</h2><div class="cards"><div class="card"><strong>80–180</strong>attendees</div><div class="card"><strong>30%–70%</strong>purchase probability</div><div class="card"><strong>$3–$8</strong>spend per customer</div><div class="card"><strong>$250</strong>fixed cost</div></div><p>Every value inside each range is treated as equally likely because no historical distribution was provided.</p></section>
+    <section><h2>3. Simulate one possible event</h2><div class="flow"><div class="step">Sample attendance</div><div class="step">Sample purchase rate</div><div class="step">Decide if each visitor buys</div><div class="step">Calculate revenue</div><div class="step">Subtract $250</div></div><pre><code>customers = number of attendees who decide to buy
+revenue   = customers × purchase amount
+profit    = revenue − fixed cost</code></pre></section>
+    <section><h2>4. Repeat it 10,000 times</h2><p>One trial is only one possible future. Repetition creates a distribution that shows both opportunity and risk. The fixed seed of <code>42</code> makes this teaching example reproducible.</p><pre><code>cd ~/Downloads/code/montecarla/bake-sale-monte-carlo
+python3 run.py</code></pre></section>
+    <section><h2>5. Read the result</h2><div class="result">71.9%</div><p><strong>of the 10,000 simulated bake sales made a profit.</strong></p><table><tr><th>Metric</th><th>Result</th></tr><tr><td>Average profit</td><td>$104.51</td></tr><tr><td>Median profit</td><td>$77.25</td></tr><tr><td>Middle 90% of outcomes</td><td>-$102.55 to $404.74</td></tr><tr><td>Worst / best simulated result</td><td>-$195.57 / $813.11</td></tr></table></section>
+    <section><h2>6. See the full distribution</h2><img src="output/profit_histogram.svg" alt="Histogram of 10,000 simulated bake sale profits"><p>The red line is break-even. Bars to its left are losses; bars to its right are profits. The blue line is the average result.</p></section>
+    <section><h2>7. Inspect the generated data</h2><p>The video has no external dataset to download. The simulation creates the data itself. The included <code>output/simulation_results.csv</code> contains 10,000 trial rows with attendance, purchase rate, customer count, purchase amount, revenue, and profit.</p><p class="warning"><strong>Interpret carefully:</strong> 71.9% is conditional on these assumptions. It is not a promise. Better historical inputs would make the model more realistic.</p></section>
+  </main>
+  <footer>Built with Python's standard library • No third-party dependencies</footer>
+</body>
+</html>
