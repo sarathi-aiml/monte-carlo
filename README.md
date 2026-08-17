@@ -1,6 +1,6 @@
 # Monte Carlo Simulation: Will the Bake Sale Make Money?
 
-This is an end-to-end, dependency-free Python demonstration of the bake-sale example from the video. It turns uncertainty about attendance, buying behavior, and customer spending into 10,000 possible event outcomes, then measures how often the event earns a profit.
+This is an end-to-end, dependency-free Python demonstration of the bake-sale example . It turns uncertainty about attendance, buying behavior, and customer spending into 10,000 possible event outcomes, then measures how often the event earns a profit.
 
 ## The business question
 
